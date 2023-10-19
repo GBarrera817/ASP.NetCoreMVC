@@ -1,0 +1,16 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<h2>Welcome</h2>
+
+<ul>
+    @* Adding the ! after (int)ViewData["NumTimes"]! tells the compiler that you are confident that this expression will never be null. *@
+    @for (int i = 0; i < (int)ViewData["NumTimes"]!; i++) 
+    {
+        <li>@ViewData["Message"]</li>
+    }
+</ul>
