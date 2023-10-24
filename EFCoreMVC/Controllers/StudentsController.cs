@@ -26,8 +26,8 @@ namespace EFCoreMVC.Controllers
         {
             ViewData["CurrentSort"] = sortOrder; // proporciona la vista con el criterio de ordenación actual, que debe incluirse en los vínculos de paginación para mantener el criterio de ordenación durante la paginación
 
-            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "LastName_desc" : "";
+            ViewData["DateSortParam"] = sortOrder == "EnrollmentDate" ? "EnrollmentDate_desc" : "EnrollmentDate";
 
             // Si se cambia la cadena de búsqueda durante la paginación, la página debe restablecerse a 1, porque el nuevo filtro puede hacer que se muestren diferentes datos. La cadena de búsqueda cambia cuando se escribe un valor en el cuadro de texto y se presiona el botón Submit. En ese caso, el parámetro searchString no es NULL
             if (searchString != null)
@@ -51,22 +51,46 @@ namespace EFCoreMVC.Controllers
             }
 
             // Sorting Columns
-            switch(sortOrder)
+            //switch(sortOrder)
+            //{
+            //    case "name_desc":
+
+            //        students = students.OrderByDescending(s => s.LastName);
+            //        break;
+
+            //    case "Date":
+
+            //        students = students.OrderBy(s => s.EnrollmentDate);
+            //        break;
+
+            //    case "date_desc":
+
+            //        students = students.OrderBy(s => s.LastName);
+            //        break;
+            //}
+
+            // Sorting column by property name
+            if (string.IsNullOrEmpty(sortOrder))
             {
-                case "name_desc":
+                sortOrder = "LastName";
+            }
 
-                    students = students.OrderByDescending(s => s.LastName);
-                    break;
+            bool descending = false;
 
-                case "Date":
+            if (sortOrder.EndsWith("_desc")
+            {
+                sortOrder = sortOrder.Substring(0, sortOrder.Length - 5);
 
-                    students = students.OrderBy(s => s.EnrollmentDate);
-                    break;
+                descending = true;
+            }
 
-                case "date_desc":
-
-                    students = students.OrderBy(s => s.LastName);
-                    break;
+            if (descending)
+            {
+                students = students.OrderByDescending(e => EF.Property<object>(e, sortOrder));
+            }
+            else
+            {
+                students = students.OrderBy(e => EF.Property<objects>(e, sortOrder));
             }
 
             // Pagination
@@ -94,10 +118,11 @@ namespace EFCoreMVC.Controllers
             // en la duración del contexto actual.
 
             var student = await _context.Students
-                .Include(s => s.Enrollments)
-                    .ThenInclude(e => e.Course)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+                                            .Include(s => s.Enrollments)
+                                                .ThenInclude(e => e.Course)
+                                            .AsNoTracking()
+                                            .FirstOrDefaultAsync(m => m.ID == id);
+
             if (student == null)
             {
                 return NotFound();

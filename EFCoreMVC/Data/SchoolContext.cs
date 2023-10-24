@@ -16,6 +16,7 @@ namespace EFCoreMVC.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
         public DbSet<CourseAssignment> CourseAssignments { get; set; }
+        public DbSet<Person> People { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace EFCoreMVC.Data
             modelBuilder.Entity<Instructor>().ToTable(nameof(Instructor));
             modelBuilder.Entity<OfficeAssignment>().ToTable(nameof(OfficeAssignment));
             modelBuilder.Entity<CourseAssignment>().ToTable(nameof(CourseAssignment));
+            modelBuilder.Entity<Person>().ToTable(nameof(Person));
 
             // Primary Key
             modelBuilder.Entity<CourseAssignment>()

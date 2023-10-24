@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using EFCoreMVC.Models;
-using EFCoreMVC.Data;
 
 namespace EFCoreMVC.Data
 {
