@@ -77,7 +77,7 @@ namespace EFCoreMVC.Controllers
 
             bool descending = false;
 
-            if (sortOrder.EndsWith("_desc")
+            if (sortOrder.EndsWith("_desc"))
             {
                 sortOrder = sortOrder.Substring(0, sortOrder.Length - 5);
 
@@ -90,7 +90,7 @@ namespace EFCoreMVC.Controllers
             }
             else
             {
-                students = students.OrderBy(e => EF.Property<objects>(e, sortOrder));
+                students = students.OrderBy(e => EF.Property<object>(e, sortOrder));
             }
 
             // Pagination
